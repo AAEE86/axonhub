@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableFacetedFilter } from '@/components/data-table-faceted-filter'
+import { DataTableViewOptions } from './data-table-view-options'
 import { CHANNEL_CONFIGS } from '../data/config_channels'
 import { useAllChannelTags } from '../data/channels'
 import { useQueryModels } from '@/gql/models'
@@ -116,7 +117,7 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      {/* <DataTableViewOptions table={table} /> */}
+      <DataTableViewOptions table={table} />
     </div>
   )
 }

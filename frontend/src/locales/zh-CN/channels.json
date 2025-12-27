@@ -1,7 +1,7 @@
 {
   "channels": {
     "title": "渠道管理",
-    "view": "视图",
+    "view": "列设置",
     "toggleColumns": "切换列",
     "description": "管理您的 AI 模型渠道和配置。",
     "addChannel": "添加渠道",
