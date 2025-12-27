@@ -101,6 +101,7 @@ export function DataTableToolbar<TData>({
         {table.getColumn('model') && modelOptions.length > 0 && (
           <DataTableFacetedFilter column={table.getColumn('model')} title={t('channels.filters.model')} options={modelOptions} singleSelect />
         )}
+        <DataTableViewOptions table={table} />
         {isFiltered && (
           <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>
             {t('common.filters.reset')}
@@ -117,7 +118,6 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
     </div>
   )
 }
