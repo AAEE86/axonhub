@@ -15,6 +15,7 @@ import { Model } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
 import { ModelsStatusDialog } from './models-status-dialog'
+import { useAllChannelsForOrdering } from '@/features/channels/data/channels'
 
 // Status Switch Cell Component to handle status toggle with confirmation dialog
 function StatusSwitchCell({ row }: { row: Row<Model> }) {
@@ -263,6 +264,38 @@ export const createColumns = (t: ReturnType<typeof useTranslation>['t']): Column
             <IconLink className='mr-1 h-3 w-3' />
             {associationCount > 0 ? `${associationCount}` : t('models.actions.addAssociation')}
           </Button>
+        )
+      },
+      enableSorting: false,
+    },
+    {
+      id: 'linkedChannels',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('models.columns.linkedChannels')} />,
+      cell: ({ row }) => {
+        const model = row.original
+        const { data: channelsData } = useAllChannelsForOrdering({ enabled: true })
+        
+        // 统计包含当前模型的渠道数量
+        const linkedChannelsCount = channelsData?.edges?.filter(edge => {
+          const channel = edge.node
+          return channel.allModelEntries?.some(entry => entry.requestModel === model.modelID || entry.actualModel === model.modelID)
+        }).length || 0
+
+        return (
+          <div className='flex items-center justify-center'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Badge variant='secondary' className='cursor-help'>
+                  {linkedChannelsCount}
+                </Badge>
+              </TooltipTrigger>
+              <TooltipContent>
+                {linkedChannelsCount > 0
+                  ? t('models.columns.linkedChannelsTooltip', { count: linkedChannelsCount })
+                  : t('models.columns.noLinkedChannels')}
+              </TooltipContent>
+            </Tooltip>
+          </div>
         )
       },
       enableSorting: false,
